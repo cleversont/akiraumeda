@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<!-- Google Analytics 
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'GA_MEASUREMENT_ID');
+</script> -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ artista.nome }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Meta Tags SEO -->
+<!-- Meta Tags Essenciais -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portfólio artístico de AKIRA UMEDA - Música, Fotografia, Desenho, Arte Digital e News. Artista multifacetado com trabalhos únicos.">
+<meta name="keywords" content="AKIRA UMEDA, arte, música, fotografia, desenho, arte digital, portfólio, artista, portfolio artistico">
+<meta name="author" content="AKIRA UMEDA">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://seu-dominio.com/">
+<meta property="og:title" content="AKIRA UMEDA - Portfólio Artístico">
+<meta property="og:description" content="Explore o trabalho artístico multifacetado de AKIRA UMEDA. Música, Fotografia, Desenho e Arte Digital.">
+<meta property="og:image" content="https://seu-dominio.com/static/images/og-image.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://seu-dominio.com/">
+<meta property="twitter:title" content="AKIRA UMEDA - Portfólio Artístico">
+<meta property="twitter:description" content="Explore o trabalho artístico multifacetado de AKIRA UMEDA.">
+<meta property="twitter:image" content="https://seu-dominio.com/static/images/og-image.jpg">
+
+<!-- Estrutura de Dados JSON-LD (Opcional mas Recomendado) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "AKIRA UMEDA",
+  "description": "Artista multifacetado especializado em música, fotografia, desenho e arte digital",
+  "url": "https://seu-dominio.com",
+  "email": "dildlo@gmail.com",
+  "knowsAbout": ["Arte", "Música", "Fotografia", "Desenho", "Arte Digital"],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://seu-dominio.com"
+  }
+}
+</script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar/Menu lateral -->
+        <div class="sidebar">
+            <h1 class="artist-name">{{ artista.nome }}</h1>
+            <ul class="nav-links">
+              <li><a href="#musica">Música</a></li>
+              <li><a href="#fotografia">Fotografia</a></li>
+              <li><a href="#desenho">Desenho</a></li>
+              <li><a href="#arte-digital">Arte Digital</a></li>
+              <li><a href="#news">Notícias</a></li> <!-- NOVO -->
+              <li><a href="#sobre">Sobre</a></li>
+              <li><a href="#contato">Contato</a></li>
+            </ul>
+        </div>
+
+        <!-- Conteúdo principal -->
+        <div class="main-content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="close">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-caption">
+                <h3 id="lightbox-title"></h3>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

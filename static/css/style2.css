@@ -1,0 +1,355 @@
+:root {
+    /* VARIÁVEIS DE CONTROLE - AJUSTE AQUI */
+    --menu-font-size: 0.65rem;      /* Tamanho da fonte do menu */
+    --menu-item-spacing: -0.8rem;    /* Espaçamento entre itens do menu */
+    --menu-padding-left: 10px;      /* Padding esquerdo quando ativo */
+    --sidebar-width: 200px;         /* Largura do menu lateral */
+    --artist-name-size: 1rem;     /* Tamanho do nome do artista */
+    --footer-margin-top: 4rem;      /* Espaço acima do footer */
+    --footer-padding-top: 3rem;     /* Padding interno do footer */
+}
+
+/* Reset e configurações básicas */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* Layout principal */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Menu lateral esquerdo */
+.sidebar {
+    width: var(--sidebar-width);
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    padding: 3rem 2rem;
+    border-right: 1px solid #f0f0f0;
+    background: #fff;
+    z-index: 100;
+}
+
+.artist-name {
+    font-size: var(--artist-name-size);
+    font-weight: 300;
+    margin-bottom: 3rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    list-style: none;
+}
+
+.nav-links li {
+    margin-bottom: var(--menu-item-spacing);
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #666;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: var(--menu-font-size);
+    letter-spacing: 1px;
+    padding: 0.5rem 0;
+    display: block;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.nav-links a:hover {
+    color: #333;
+    background-color: #f8f8f8;
+    padding-left: var(--menu-padding-left);
+}
+
+.nav-links a.active {
+    color: #333;
+    background-color: #f5f5f5;
+    padding-left: var(--menu-padding-left);
+}
+
+
+
+/* Conteúdo principal 
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 3rem;
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+}*/
+
+/* Conteúdo principal - CORREÇÃO DO PROBLEMA */
+.main-content {
+    margin-left: 280px; /* Mantém o espaço para a sidebar */
+    padding: 3rem 2rem; /* Reduz padding lateral */
+    width: calc(100% - 280px);
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Seções do portfolio 
+.categoria {
+    margin-bottom: 4rem;
+    display: none;
+    width: 100%; /* Garantir que ocupe toda a largura disponível */
+  
+}*/
+
+/* Garantir que as seções usem todo o espaço disponível */
+.categoria {
+    margin-bottom: 4rem;
+    display: none;
+    width: 100%;
+    max-width: none; /* Remove qualquer limitação de largura máxima */
+    padding: 0; /* Remove padding interno */
+}
+
+.categoria.active {
+    display: block;
+    /*animation: fadeIn 0.5s ease-in;*/
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.categoria h2 {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #333;
+}
+
+/* Grid para galeria 
+.grid-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}*/
+
+/* Ajustar grids para usar espaço disponível */
+.grid-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    width: 100%;
+}
+
+.photo-card {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.photo-card:hover {
+    transform: translateY(-5px);
+}
+
+.photo-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.photo-info {
+    padding: 1rem 0;
+}
+
+.photo-info h4 {
+    font-weight: 400;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.categoria-tag {
+    color: #999;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Grid para música */
+.grid-musica {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    width: 100%;
+}
+
+.music-card {
+    text-align: center;
+}
+
+.music-card img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.music-card h3 {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 4rem;
+}
+
+.social-links {
+    margin-bottom: 1rem;
+}
+
+.social-links a {
+    margin: 0 0.8rem;
+    color: #666;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1200px;
+    max-height: 80vh;
+}
+
+.lightbox-content img {
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 2rem;
+        border-right: none;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 2rem;
+        min-height: calc(100vh - 200px);
+    }
+    
+    .artist-name {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .nav-links li {
+        margin-bottom: 0;
+    }
+    
+    .grid-galeria,
+    .grid-musica {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-galeria,
+    .grid-musica {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+}
+
+/* Footer apenas na página Sobre */
+#sobre .page-footer {
+    margin-top: var(--footer-margin-top);
+    padding-top: var(--footer-padding-top);
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid #f0f0f0;
+    text-align: center;
+    color: #666;
+}
+
+#sobre .social-links {
+    margin-bottom: 1rem;
+}
+
+#sobre .social-links a {
+    margin: 0 0.8rem;
+    color: #666;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+#sobre .social-links a:hover {
+    color: #333;
+}

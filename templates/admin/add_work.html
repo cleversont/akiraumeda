@@ -1,0 +1,152 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Adicionar Novo Trabalho</h1>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="categoria">Categoria:</label>
+            <select name="categoria" id="categoria" class="form-control" required>
+                <option value="">Selecione uma categoria</option>
+                <option value="musica">Música</option>
+                <option value="fotografia">Fotografia</option>
+                <option value="desenho">Desenho</option>
+                <option value="arte_digital">Arte Digital</option>
+                <option value="news">Notícias</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="titulo">Título:</label>
+            <input type="text" name="titulo" id="titulo" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <textarea name="descricao" id="descricao" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="ano">Ano:</label>
+            <input type="number" name="ano" id="ano" class="form-control" min="1900" max="2030" value="{{ now.year }}">
+        </div>
+
+        <!-- Campos específicos para Música -->
+        <div id="campos-musica" class="campos-categoria" style="display: none;">
+            <div class="form-group">
+                <label for="genero">Gênero Musical:</label>
+                <input type="text" name="genero" id="genero" class="form-control">
+            </div>
+        </div>
+
+        <!-- Campos específicos para Fotografia -->
+        <div id="campos-fotografia" class="campos-categoria" style="display: none;">
+            <div class="form-group">
+                <label for="categoria_foto">Categoria da Foto:</label>
+                <input type="text" name="categoria_foto" id="categoria_foto" class="form-control" placeholder="ex: Retratos, Paisagens...">
+            </div>
+        </div>
+
+        <!-- Campos específicos para Desenho -->
+        <div id="campos-desenho" class="campos-categoria" style="display: none;">
+            <div class="form-group">
+                <label for="tecnica">Técnica:</label>
+                <input type="text" name="tecnica" id="tecnica" class="form-control" placeholder="ex: Grafite, Aquarela...">
+            </div>
+        </div>
+
+        <!-- Campos específicos para Arte Digital -->
+        <div id="campos-arte-digital" class="campos-categoria" style="display: none;">
+            <div class="form-group">
+                <label for="software">Software:</label>
+                <input type="text" name="software" id="software" class="form-control" placeholder="ex: Photoshop, Blender...">
+            </div>
+        </div>
+
+        <!-- Campos específicos para Notícias -->
+        <div id="campos-news" class="campos-categoria" style="display: none;">
+            <div class="form-group">
+                <label for="resumo">Resumo:</label>
+                <textarea name="resumo" id="resumo" class="form-control" rows="3" placeholder="Breve resumo da notícia..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="conteudo">Conteúdo Completo:</label>
+                <textarea name="conteudo" id="conteudo" class="form-control" rows="8" placeholder="Conteúdo completo da notícia..."></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="arquivo">Arquivo:</label>
+            <input type="file" name="arquivo" id="arquivo" class="form-control">
+            <small id="arquivo-help" class="form-text text-muted"></small>
+        </div>
+
+        <button type="submit" class="btn btn-success">Adicionar Trabalho</button>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn">Cancelar</a>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categoriaSelect = document.getElementById('categoria');
+    const arquivoHelp = document.getElementById('arquivo-help');
+    
+    function toggleCamposCategoria() {
+        // Esconder todos os campos de categoria
+        document.querySelectorAll('.campos-categoria').forEach(campo => {
+            campo.style.display = 'none';
+        });
+        
+        // Mostrar campos específicos da categoria selecionada
+        const categoria = categoriaSelect.value;
+        
+        if (categoria === 'musica') {
+            document.getElementById('campos-musica').style.display = 'block';
+            arquivoHelp.textContent = 'Formatos permitidos: MP3, WAV, OGG';
+        } else if (categoria === 'fotografia') {
+            document.getElementById('campos-fotografia').style.display = 'block';
+            arquivoHelp.textContent = 'Formatos permitidos: JPG, PNG, GIF, WEBP';
+        } else if (categoria === 'desenho') {
+            document.getElementById('campos-desenho').style.display = 'block';
+            arquivoHelp.textContent = 'Formatos permitidos: JPG, PNG, GIF, WEBP';
+        } else if (categoria === 'arte_digital') {
+            document.getElementById('campos-arte-digital').style.display = 'block';
+            arquivoHelp.textContent = 'Formatos permitidos: JPG, PNG, GIF, WEBP';
+        } else if (categoria === 'news') {
+            document.getElementById('campos-news').style.display = 'block';
+            arquivoHelp.textContent = 'Imagem de capa (opcional): JPG, PNG, GIF, WEBP';
+        } else {
+            arquivoHelp.textContent = '';
+        }
+    }
+    
+    // Event listener para mudanças no select
+    categoriaSelect.addEventListener('change', toggleCamposCategoria);
+    
+    // Executar uma vez para configurar o estado inicial
+    toggleCamposCategoria();
+});
+</script>
+
+<style>
+.campos-categoria {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.form-text {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+</style>
+{% endblock %}

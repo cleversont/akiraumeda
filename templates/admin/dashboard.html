@@ -1,0 +1,54 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Dashboard</h1>
+    <p>Bem-vindo ao painel de administração do site.</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_trabalhos }}</div>
+        <div class="stat-label">Total de Trabalhos</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.musica }}</div>
+        <div class="stat-label">Músicas</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.fotografia }}</div>
+        <div class="stat-label">Fotografias</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.desenho }}</div>
+        <div class="stat-label">Desenhos</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.arte_digital }}</div>
+        <div class="stat-label">Artes Digitais</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Ações Rápidas</h2>
+    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+        <a href="{{ url_for('admin.add_work') }}" class="btn">Adicionar Trabalho</a>
+        <a href="{{ url_for('admin.edit_artist') }}" class="btn">Editar Informações</a>
+        <a href="{{ url_for('admin.manage_works') }}" class="btn">Gerenciar Trabalhos</a>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Trabalhos Recentes</h2>
+    {% for categoria in works %}
+        {% if works[categoria] %}
+            <h3 style="margin-top: 1rem;">{{ categoria.title() }}</h3>
+            <ul style="margin-left: 1rem;">
+                {% for trabalho in works[categoria][-3:] %}
+                    <li>{{ trabalho.titulo }} (ID: {{ trabalho.id }})</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

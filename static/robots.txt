@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Áreas restritas
+Disallow: /admin/
+Disallow: /static/admin/
+
+# Sitemap
+Sitemap: https://seu-dominio.com/sitemap.xml

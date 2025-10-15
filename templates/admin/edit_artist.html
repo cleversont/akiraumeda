@@ -1,0 +1,59 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Editar Informações do Artista</h1>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="nome">Nome do Artista:</label>
+            <input type="text" name="nome" id="nome" class="form-control" value="{{ artist.nome }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="bio">Biografia:</label>
+            <textarea name="bio" id="bio" class="form-control" rows="6" required>{{ artist.bio }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" class="form-control" value="{{ artist.email }}" required>
+        </div>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Links Sociais</h3>
+
+        <div class="form-group">
+            <label for="instagram">Instagram:</label>
+            <input type="url" name="instagram" id="instagram" class="form-control" 
+                   value="{{ artist.social_links.instagram }}" placeholder="https://instagram.com/seu-perfil">
+        </div>
+
+        <div class="form-group">
+            <label for="youtube">YouTube:</label>
+            <input type="url" name="youtube" id="youtube" class="form-control" 
+                   value="{{ artist.social_links.youtube }}" placeholder="https://youtube.com/seu-canal">
+        </div>
+
+        <div class="form-group">
+            <label for="spotify">Spotify:</label>
+            <input type="url" name="spotify" id="spotify" class="form-control" 
+                   value="{{ artist.social_links.spotify }}" placeholder="https://open.spotify.com/artist/...">
+        </div>
+
+        <div class="form-group">
+            <label for="bandcamp1">Bandcamp (Conta 1):</label>
+            <input type="url" name="bandcamp1" id="bandcamp1" class="form-control" 
+                   value="{{ artist.social_links.get('bandcamp1', '') }}" placeholder="https://artista1.bandcamp.com">
+        </div>
+
+        <div class="form-group">
+            <label for="bandcamp2">Bandcamp (Conta 2):</label>
+            <input type="url" name="bandcamp2" id="bandcamp2" class="form-control" 
+                   value="{{ artist.social_links.get('bandcamp2', '') }}" placeholder="https://artista2.bandcamp.com">
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar Alterações</button>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

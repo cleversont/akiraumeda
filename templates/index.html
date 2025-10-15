@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<head>
+    <title>AKIRA UMEDA - {% block title %}Portfólio Artístico{% endblock %}</title>
+</head>
+
+<!-- Seção Música -->
+<section id="musica" class="categoria">
+    <h2>Música</h2>
+    <div class="grid-musica">
+        {% for item in portfolio.musica %}
+      <!--  <div class="music-card">-->
+            <!-- REMOVER A CAPA - substituir por um placeholder ou remover completamente -->
+          <!--  <div style="background: #f5f5f5; height: 120px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; border-radius: 4px;">
+                <span style="color: #666; font-size: 0.9rem;">🎵 Áudio</span>
+            </div>
+          -->
+            
+            <h3>{{ item.titulo }}</h3>
+            
+            <!-- Informações adicionais -->
+            {% if item.genero %}
+            <p style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">
+                Gênero: {{ item.genero }}
+            </p>
+            {% endif %}
+            
+            {% if item.ano %}
+            <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">
+                Ano: {{ item.ano }}
+            </p>
+            {% endif %}
+            
+            <!-- Player de áudio -->
+            {% if item.audio %}
+            <audio controls style="width: 100%; height: 40px;">
+                <source src="{{ url_for('media_files', filename=item.audio) }}" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            {% else %}
+            <p style="color: #999; font-style: italic;">Áudio não disponível</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Seção Fotografia -->
+<section id="fotografia" class="categoria">
+    <h2>Fotografia</h2>
+    <div class="grid-galeria">
+        {% for item in portfolio.fotografia %}
+        <div class="photo-card">
+            <img src="{{ url_for('media_files', filename=item.imagem) }}" alt="{{ item.titulo }}">
+            <div class="photo-info">
+                <h4>{{ item.titulo }}</h4>
+                <span class="categoria-tag">{{ item.categoria }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Seção Desenho -->
+<section id="desenho" class="categoria">
+    <h2>Desenho</h2>
+    <div class="grid-galeria">
+        {% for item in portfolio.desenho %}
+        <div class="photo-card">
+            <img src="{{ url_for('media_files', filename=item.imagem) }}" alt="{{ item.titulo }}">
+            <div class="photo-info">
+                <h4>{{ item.titulo }}</h4>
+                <span class="categoria-tag">{{ item.tecnica }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Seção Arte Digital -->
+<section id="arte-digital" class="categoria">
+    <h2>Arte Digital</h2>
+    <div class="grid-galeria">
+        {% for item in portfolio.arte_digital %}
+        <div class="photo-card">
+            <img src="{{ url_for('media_files', filename=item.imagem) }}" alt="{{ item.titulo }}">
+            <div class="photo-info">
+                <h4>{{ item.titulo }}</h4>
+                <span class="categoria-tag">{{ item.software }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Seção Notícias -->
+<section id="news" class="categoria">
+    <h2>Notícias</h2>
+    
+    <div class="news-grid">
+        {% for item in portfolio.news %}
+        <article class="news-card">
+            {% if item.imagem %}
+            <div class="news-image">
+                <img src="{{ url_for('media_files', filename=item.imagem) }}" alt="{{ item.titulo }}">
+            </div>
+            {% endif %}
+            
+            <div class="news-content">
+                <div class="news-meta">
+                    <time datetime="{{ item.data_publicacao }}">{{ item.data_publicacao.split(' ')[0] }}</time>
+                    {% if item.ano %}
+                    <span class="news-year">{{ item.ano }}</span>
+                    {% endif %}
+                </div>
+                
+                <h3>{{ item.titulo }}</h3>
+                
+                {% if item.resumo %}
+                <p class="news-excerpt">{{ item.resumo }}</p>
+                {% endif %}
+                
+                {% if item.conteudo %}
+                <div class="news-full-content" style="display: none;">
+                    {{ item.conteudo|replace('\n', '<br>')|safe }}
+                </div>
+                <button class="news-read-more" onclick="toggleNewsContent(this)">Ler mais</button>
+                {% endif %}
+                
+                {% if item.descricao %}
+                <p class="news-description">{{ item.descricao }}</p>
+                {% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Seção Sobre -->
+<section id="sobre" class="categoria">
+    <h2>Sobre</h2>
+    <div style="max-width: 600px; line-height: 1.8; margin-bottom: 3rem;">
+        <p>{{ artista.bio }}</p>
+    </div>
+
+    <!-- Footer movido para cá -->
+    <div class="page-footer">
+        <div class="social-links">
+            <!-- Links sociais principais -->
+            {% if artista.social_links.instagram %}
+                <a href="{{ artista.social_links.instagram }}" target="_blank">Instagram</a>
+            {% endif %}
+            
+            {% if artista.social_links.youtube %}
+                <a href="{{ artista.social_links.youtube }}" target="_blank">YouTube</a>
+            {% endif %}
+            
+            {% if artista.social_links.spotify %}
+                <a href="{{ artista.social_links.spotify }}" target="_blank">Spotify</a>
+            {% endif %}
+            
+            <!-- Bandcamps - USAR AS CHAVES CORRETAS -->
+            {% if artista.social_links.get('bandcamp1') %}
+                <a href="{{ artista.social_links.bandcamp1 }}" target="_blank">Bandcamp 1</a>
+            {% endif %}
+            
+            {% if artista.social_links.get('bandcamp2') %}
+                <a href="{{ artista.social_links.bandcamp2 }}" target="_blank">Bandcamp 2</a>
+            {% endif %}
+            
+            <!-- Para compatibilidade com o dado antigo -->
+            {% if artista.social_links.get('bandcamp') and not artista.social_links.get('bandcamp1') %}
+                <a href="{{ artista.social_links.bandcamp }}" target="_blank">Bandcamp</a>
+            {% endif %}
+        </div>
+        <p>&copy; {{ artista.nome }} {{ now.year }}</p>
+    </div>
+</section>
+
+<section id="contato" class="categoria">
+    <h2>Contato</h2>
+    <div style="max-width: 600px; margin: 0 auto;">
+        
+        <!-- Mensagens Flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}" 
+                         style="padding: 12px; margin-bottom: 20px; border-radius: 5px; 
+                                {% if category == 'success' %} 
+                                    background: #d4edda; color: #155724; border: 1px solid #c3e6cb;
+                                {% else %} 
+                                    background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+                                {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <p style="margin-bottom: 2rem;">Entre em contato através do email ou pelo formulário abaixo:</p>
+        
+        <!-- Email direto -->
+        <div style="margin-bottom: 2rem; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+            <p style="font-size: 1.1rem; margin: 0;">
+                <strong>Email:</strong> 
+                <a href="mailto:{{ artista.email }}" style="color: #333; text-decoration: none;">
+                    {{ artista.email }}
+                </a>
+            </p>
+        </div>
+
+        <!-- Formulário de Contato -->
+        <form action="/enviar-mensagem" method="POST" style="display: grid; gap: 1.5rem;">
+            <div>
+                <label for="nome" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Nome:</label>
+                <input type="text" id="nome" name="nome" required 
+                       style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 5px; font-size: 16px;"
+                       placeholder="Seu nome completo">
+            </div>
+            
+            <div>
+                <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Email:</label>
+                <input type="email" id="email" name="email" required 
+                       style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 5px; font-size: 16px;"
+                       placeholder="seu@email.com">
+            </div>
+            
+            <div>
+                <label for="mensagem" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" required 
+                          style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 5px; font-size: 16px; height: 150px; resize: vertical;"
+                          placeholder="Digite sua mensagem aqui..."></textarea>
+            </div>
+            
+            <button type="submit" 
+                    style="background: #2c3e50; color: white; padding: 14px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background 0.3s;"
+                    onmouseover="this.style.background='#34495e'" 
+                    onmouseout="this.style.background='#2c3e50'">
+                Enviar Mensagem
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Gerenciar Trabalhos</h1>
+    
+    {% for categoria in works %}
+        <h2 style="margin-top: 2rem; margin-bottom: 1rem;">{{ categoria.title() }} ({{ works[categoria]|length }})</h2>
+        
+        {% if works[categoria] %}
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 1rem; text-align: left; border-bottom: 1px solid #dee2e6;">Título</th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 1px solid #dee2e6;">Ano</th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 1px solid #dee2e6;">Arquivo</th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 1px solid #dee2e6;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trabalho in works[categoria] %}
+                        <tr>
+                            <td style="padding: 1rem; border-bottom: 1px solid #dee2e6;">{{ trabalho.titulo }}</td>
+                            <td style="padding: 1rem; border-bottom: 1px solid #dee2e6;">{{ trabalho.ano }}</td>
+                            <td style="padding: 1rem; border-bottom: 1px solid #dee2e6;">
+                                {% if trabalho.imagem %}
+                                    {{ trabalho.imagem }}
+                                {% elif trabalho.audio %}
+                                    {{ trabalho.audio }}
+                                {% endif %}
+                            </td>
+                            <td style="padding: 1rem; border-bottom: 1px solid #dee2e6;">
+                                <a href="{{ url_for('admin.delete_work', categoria=categoria, work_id=trabalho.id) }}" 
+                                   class="btn btn-danger" 
+                                   onclick="return confirm('Tem certeza que deseja excluir este trabalho?')">
+                                    Excluir
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p style="color: #6c757d; font-style: italic;">Nenhum trabalho nesta categoria.</p>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
