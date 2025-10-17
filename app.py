@@ -71,21 +71,29 @@ def load_artist_data():
 # Rotas de Autenticação
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('admin.dashboard'))
-    
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        next_page = request.args.get('next')
         
-        user = next((u for u in users.values() if u.username == username), None)
+        print(f"🔐 Tentativa de login: {username}")  # Log no Railway
         
-        if user and user.password == password:
+        user = users.get('1')
+        
+        # Debug detalhado
+        print(f"📝 Usuário esperado: {user.username if user else 'NONE'}")
+        print(f"🔑 Senha esperada: {'***' if user and user.password else 'NONE'}")
+        print(f"📝 Usuário fornecido: {username}")
+        print(f"🔑 Senha fornecida: {'***' if password else 'NONE'}")
+        
+        if user and user.username == username and user.password == password:
             login_user(user)
-            next_page = request.args.get('next')
-            return redirect(next_page or url_for('admin.dashboard'))
+            print("✅ Login bem-sucedido!")
+            flash('Login realizado com sucesso!', 'success')
+            return redirect(next_page) if next_page else redirect(url_for('admin.dashboard'))
         else:
-            flash('Usuário ou senha incorretos!', 'error')
+            print("❌ Login falhou - credenciais incorretas")
+            flash('Usuário ou senha incorretos', 'error')
     
     return render_template('login.html')
 
@@ -339,6 +347,26 @@ def static_files(filename):
     response = send_from_directory('static', filename)
     response.headers['Cache-Control'] = 'public, max-age=31536000'  # 1 ano
     return response
+
+@app.route('/debug-auth')
+def debug_auth():
+    """Debug das credenciais de autenticação"""
+    import os
+    user = users.get('1')
+    
+    debug_info = {
+        'ADMIN_USERNAME_env': os.environ.get('ADMIN_USERNAME'),
+        'ADMIN_PASSWORD_env': '***' if os.environ.get('ADMIN_PASSWORD') else 'NÃO CONFIGURADO',
+        'user_username': user.username if user else 'NÃO ENCONTRADO',
+        'user_password': '***' if user and user.password else 'NÃO CONFIGURADO',
+        'users_dict': {k: vars(v) for k, v in users.items()} if users else 'VAZIO'
+    }
+    
+    return f"""
+    <h1>Debug Autenticação</h1>
+    <pre>{json.dumps(debug_info, indent=2)}</pre>
+    <p><a href="/admin">Tentar admin</a></p>
+    """
 
 # Configurações para produção
 if __name__ == '__main__':
