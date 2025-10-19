@@ -367,6 +367,15 @@ def debug_auth():
     <pre>{json.dumps(debug_info, indent=2)}</pre>
     <p><a href="/admin">Tentar admin</a></p>
     """
+@app.route('/debug')
+def debug():
+    variables = {
+        'ADMIN_USERNAME': os.environ.get('ADMIN_USERNAME'),
+        'ADMIN_PASSWORD': '***' if os.environ.get('ADMIN_PASSWORD') else None,
+        'SECRET_KEY': '***' if os.environ.get('SECRET_KEY') else None,
+        'FLASK_ENV': os.environ.get('FLASK_ENV')
+    }
+    return variables
 
 # Configurações para produção
 if __name__ == '__main__':
